@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DataAccess.Repository;
+using DBFMvcMovies.Security;
 using Domain.Models;
 
 namespace DBFMvcMovies.Controllers
@@ -26,6 +27,7 @@ namespace DBFMvcMovies.Controllers
         }
 
         // GET: Movies
+        [Authorize]
         public ActionResult Index(string movieGenre, string searchString)
         {
             var movies = from m in _genericRepository.GetAll()

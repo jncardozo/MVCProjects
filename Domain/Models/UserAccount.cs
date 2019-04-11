@@ -11,24 +11,15 @@ namespace Domain.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class UserAccount
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "First Name is Required")]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
-        [Required(ErrorMessage = "Email is Required")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Username is Required")]
         public string Username { get; set; }
-        [Required(ErrorMessage = "Password is Required")]
-        [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Compare("Password", ErrorMessage = "Please, Confirm your password.")]
-        [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
     }
 }

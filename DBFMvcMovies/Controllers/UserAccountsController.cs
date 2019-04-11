@@ -6,12 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using DataAccess;
 using DataAccess.Repository;
 using Domain.Models;
 
 namespace DBFMvcMovies.Controllers
-{
+{       
     public class UserAccountsController : Controller
     {
         private IGenericRepository<UserAccount> _genericRepository;
@@ -27,13 +28,14 @@ namespace DBFMvcMovies.Controllers
         }
 
         // GET: UserAccounts
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(_genericRepository.GetAll());
         }
-                
 
         // GET: UserAccounts/Create
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -42,7 +44,9 @@ namespace DBFMvcMovies.Controllers
         // POST: UserAccounts/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Register([Bind(Include = "Id,FirstName,LastName,Email,Username,Password,ConfirmPassword")] UserAccount userAccount)
         {
@@ -55,20 +59,26 @@ namespace DBFMvcMovies.Controllers
             return View(userAccount);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
-
+        
         [HttpPost]
-        public ActionResult Login(UserAccount user)
+        [AllowAnonymous]
+        public ActionResult Login(UserAccount user,string returnUrl)
         {
             var usr = _genericRepository.GetAll().FirstOrDefault(s => s.Username == user.Username && s.Password == user.Password);
+            Session["UserId"] = usr.Id.ToString();
+
             if (usr != null)
-            {
-                Session["UserID"] = usr.Id.ToString();
-                Session["Username"] = usr.FirstName.ToString();
-                return RedirectToAction("Index", "Movies");
+            {                
+                FormsAuthentication.SetAuthCookie(usr.Username, false);
+
+                // Redirect to URL "returnURL" if "returnURL" is NOT null; otherwise, Redirect Movie Index View.
+                return Redirect(returnUrl ?? Url.Action("Index", "Movies"));                
             }
             else
             {
@@ -77,6 +87,7 @@ namespace DBFMvcMovies.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult LoggedIn()
         {
             if (Session["UserId"] != null)
@@ -88,7 +99,12 @@ namespace DBFMvcMovies.Controllers
                 return RedirectToAction("Login");
             }
         }
-
-
+        
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            Session.Clear();
+            return RedirectToAction("Login");
+        }
     }
 }

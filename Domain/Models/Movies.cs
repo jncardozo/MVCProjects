@@ -11,16 +11,12 @@ namespace Domain.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Movies
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        [Display(Name = "Release Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ReleaseDate { get; set; }
+        public System.DateTime ReleaseDate { get; set; }
         public string Genre { get; set; }
         public decimal Price { get; set; }
     }
