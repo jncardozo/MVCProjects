@@ -11,13 +11,21 @@ namespace Domain.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Movies
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
+
+        [Required(ErrorMessage = "Date is required")]
         public System.DateTime ReleaseDate { get; set; }
+
+        [Required(ErrorMessage = "Genre is required")]
         public string Genre { get; set; }
+
+        [Required(ErrorMessage = "Price is required")]
         public decimal Price { get; set; }
     }
 }
