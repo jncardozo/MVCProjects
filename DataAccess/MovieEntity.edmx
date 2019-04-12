@@ -5,15 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DatabaseFirstMovieDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="Movies">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
           <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
           <Property Name="Genre" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="1" Nullable="false" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -27,9 +35,28 @@
           <Property Name="Password" Type="nvarchar" MaxLength="200" />
           <Property Name="ConfirmPassword" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <Association Name="FK_Movies_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Movies" Type="Self.Movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movies">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DatabaseFirstMovieDBModelStoreContainer">
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Movies_Country" Association="Self.FK_Movies_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Movies" EntitySet="Movies" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -40,10 +67,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Genre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="1" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="Country" Relationship="DatabaseFirstMovieDBModel.FK_Movies_Country" FromRole="Movies" ToRole="Country" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -60,7 +89,34 @@
         <EntityContainer Name="DatabaseFirstMovieDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Movies" EntityType="Self.Movies" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" />
+          <EntitySet Name="Country" EntityType="DatabaseFirstMovieDBModel.Country" />
+          <AssociationSet Name="FK_Movies_Country" Association="DatabaseFirstMovieDBModel.FK_Movies_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Movies" EntitySet="Movies" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Movies" Relationship="DatabaseFirstMovieDBModel.FK_Movies_Country" FromRole="Country" ToRole="Movies" />
+        </EntityType>
+        <Association Name="FK_Movies_Country">
+          <End Type="DatabaseFirstMovieDBModel.Country" Role="Country" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DatabaseFirstMovieDBModel.Movies" Role="Movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movies">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -70,6 +126,7 @@
           <EntitySetMapping Name="Movies">
             <EntityTypeMapping TypeName="DatabaseFirstMovieDBModel.Movies">
               <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
@@ -88,6 +145,14 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="DatabaseFirstMovieDBModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

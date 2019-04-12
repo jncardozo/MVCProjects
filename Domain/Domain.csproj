@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Country.cs">
+      <DependentUpon>MovieContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MovieContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
