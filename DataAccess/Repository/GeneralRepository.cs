@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,10 +31,10 @@ namespace DataAccess.Repository
             _table.Remove(existing);
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        //public void Dispose()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public IEnumerable<T> GetAll()
         {
@@ -41,8 +42,13 @@ namespace DataAccess.Repository
         }
 
         public T GetById(object id)
-        {
-            return _table.Find(id);
+        {            
+            return _table.Find(id);            
+        }
+
+        public T GetByUserNameAndPass(T t)
+        {            
+            return _table.Find(t);            
         }
 
         public void Insert(T obj)

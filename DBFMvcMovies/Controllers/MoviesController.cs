@@ -6,29 +6,32 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Aplication.Services.Movie.Interfaces;
 using DataAccess.Repository;
 using Domain.Models;
 
 namespace DBFMvcMovies.Controllers
-{
+{    
     public class MoviesController : Controller
-    {
-        private IGenericRepository<Movies> _genericRepository;
+    {        
+        private IMoviesAppService _moviesAppServices;
 
-        public MoviesController(IGenericRepository<Movies> genericRepository)
-        {
-            _genericRepository = genericRepository;
+        public MoviesController(     
+            IMoviesAppService moviesAppServices)
+        {            
+            _moviesAppServices = moviesAppServices;
         }
 
-        public MoviesController()
-        {
-            _genericRepository = new GeneralReposity<Movies>();
-        }
+        //public MoviesController()
+        //{
+        //    _genericRepository = new GeneralReposity<Movies>();
+        //}
 
         // GET: Movies
+        [Authorize]
         public ActionResult Index(string movieGenre, string searchString)
         {
-            var movies = from m in _genericRepository.GetAll()
+            var movies = from m in _moviesAppServices.GetAll()
                          select m;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -40,7 +43,7 @@ namespace DBFMvcMovies.Controllers
         // GET: Movies/Details/5
         public ActionResult Details(int id)
         {
-            Movies movie = _genericRepository.GetById(id);
+            Movies movie = _moviesAppServices.GetById(id);
             return View(movie);
         }
 
@@ -61,8 +64,8 @@ namespace DBFMvcMovies.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _genericRepository.Insert(movie);
-                    _genericRepository.Save();
+                    _moviesAppServices.Insert(movie);
+                    _moviesAppServices.Save();
                     return RedirectToAction("Index");
                 }
             }
@@ -82,7 +85,7 @@ namespace DBFMvcMovies.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Movies movie = _genericRepository.GetById(id);
+            Movies movie = _moviesAppServices.GetById(id);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -95,18 +98,18 @@ namespace DBFMvcMovies.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MovieId,Title,ReleaseDate,Genre,Price")] Movies movie)
+        public ActionResult Edit([Bind(Include = "Id,Title,ReleaseDate,Genre,Price")] Movies movie)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _genericRepository.Update(movie);
-                    _genericRepository.Save();
+                    _moviesAppServices.Update(movie);
+                    _moviesAppServices.Save();
                     return RedirectToAction("Index");
                 }
             }
-            catch (DataException /* dex */)
+            catch (DataException dex )
             {
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
                 ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
@@ -121,7 +124,7 @@ namespace DBFMvcMovies.Controllers
             {
                 ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
             }
-            Movies movie = _genericRepository.GetById(id);
+            Movies movie = _moviesAppServices.GetById(id);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -134,9 +137,9 @@ namespace DBFMvcMovies.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Movies movie = _genericRepository.GetById(id);
-            _genericRepository.Delete(id);
-            _genericRepository.Save();
+            Movies movie = _moviesAppServices.GetById(id);
+            _moviesAppServices.Delete(id);
+            _moviesAppServices.Save();
             return RedirectToAction("Index");
         }        
     }

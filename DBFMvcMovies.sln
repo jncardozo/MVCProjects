@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28307.438
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBFMvcMovies", "DBFMvcMovies\DBFMvcMovies.csproj", "{D5B8B3ED-FDEF-471E-A21B-24362269E1C7}"
 EndProject
@@ -9,11 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5223E3CD-E3FB-45E1-95DC-CEAAEE7DEA00}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Access Layer", "Data Access Layer", "{C79AC552-F8FC-41EB-A24F-93C8FBDA4399}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Data Access Layer", "01.Data Access Layer", "{C79AC552-F8FC-41EB-A24F-93C8FBDA4399}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain Layer", "Domain Layer", "{9EF3281B-2EE4-416E-86B0-5EC46C90D004}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Domain Layer", "02.Domain Layer", "{9EF3281B-2EE4-416E-86B0-5EC46C90D004}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation Layer", "Presentation Layer", "{4872C468-3783-4A39-9ED4-D8DB8B791D00}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.Presentation Layer", "04.Presentation Layer", "{4872C468-3783-4A39-9ED4-D8DB8B791D00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.Aplication Layer", "03.Aplication Layer", "{648A015F-B908-442C-9E13-A017658A6227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aplication", "Aplication\Aplication.csproj", "{89BFE66B-73AC-4D33-8D27-E91FE9FDFE39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,10 @@ Global
 		{5223E3CD-E3FB-45E1-95DC-CEAAEE7DEA00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5223E3CD-E3FB-45E1-95DC-CEAAEE7DEA00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5223E3CD-E3FB-45E1-95DC-CEAAEE7DEA00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89BFE66B-73AC-4D33-8D27-E91FE9FDFE39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89BFE66B-73AC-4D33-8D27-E91FE9FDFE39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89BFE66B-73AC-4D33-8D27-E91FE9FDFE39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89BFE66B-73AC-4D33-8D27-E91FE9FDFE39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,7 @@ Global
 		{D5B8B3ED-FDEF-471E-A21B-24362269E1C7} = {4872C468-3783-4A39-9ED4-D8DB8B791D00}
 		{80F10D32-229C-40EE-AB35-2C3C2D7427BC} = {C79AC552-F8FC-41EB-A24F-93C8FBDA4399}
 		{5223E3CD-E3FB-45E1-95DC-CEAAEE7DEA00} = {9EF3281B-2EE4-416E-86B0-5EC46C90D004}
+		{89BFE66B-73AC-4D33-8D27-E91FE9FDFE39} = {648A015F-B908-442C-9E13-A017658A6227}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {354921AF-509B-416D-A325-58E04767EC38}

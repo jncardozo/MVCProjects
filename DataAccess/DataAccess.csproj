@@ -55,14 +55,30 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="MovieEntity.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MovieEntity.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MovieEntity.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MovieEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="MovieEntity.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MovieEntity.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Movies.cs">
+      <DependentUpon>MovieEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\GeneralRepository.cs" />
     <Compile Include="Repository\IGenericRepository.cs" />
+    <Compile Include="UserAccount.cs">
+      <DependentUpon>MovieEntity.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -80,6 +96,16 @@
     <Content Include="MovieContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MovieContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="MovieEntity.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MovieEntity.Context.cs</LastGenOutput>
+      <DependentUpon>MovieEntity.edmx</DependentUpon>
+    </Content>
+    <Content Include="MovieEntity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MovieEntity.cs</LastGenOutput>
+      <DependentUpon>MovieEntity.edmx</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>

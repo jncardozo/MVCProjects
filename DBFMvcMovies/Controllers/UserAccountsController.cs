@@ -6,32 +6,36 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using Aplication.Services.UserAccount.Interfaces;
 using DataAccess;
 using DataAccess.Repository;
+using DBFMvcMovies.Models;
 using Domain.Models;
 
 namespace DBFMvcMovies.Controllers
 {
     public class UserAccountsController : Controller
-    {
-        private IGenericRepository<UserAccount> _genericRepository;
-        
-        public UserAccountsController()
-        {
-            _genericRepository = new GeneralReposity<UserAccount>();
+    {        
+        private IUserAccountAppService _userAccountAppService;
+
+        public UserAccountsController(     
+            IUserAccountAppService userAccountAppService)
+        {            
+            _userAccountAppService = userAccountAppService;
         }
 
-        public UserAccountsController(IGenericRepository<UserAccount> genericRepository)
-        {
-            _genericRepository = genericRepository;
-        }
+        //public UserAccountsController()
+        //{
+        //    _genericRepository = new GeneralReposity<Domain.Models.UserAccount>();
+        //}
 
         // GET: UserAccounts
         public ActionResult Index()
         {
-            return View(_genericRepository.GetAll());
+            return View(_userAccountAppService.GetAll());
         }
-                
+
 
         // GET: UserAccounts/Create
         public ActionResult Register()
@@ -44,15 +48,24 @@ namespace DBFMvcMovies.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "Id,FirstName,LastName,Email,Username,Password,ConfirmPassword")] UserAccount userAccount)
-        {
+        public ActionResult Register(UserAccountsModel userAccountsModel)
+        {            
+            var lista = _userAccountAppService.GetAll().Where(ua => ua.Username == userAccountsModel.Username && ua.Password == userAccountsModel.Password).FirstOrDefault();
+
+            if (lista == null)
+            {
+                _userAccountAppService.Insert(userAccountsModel.GetDocumentoTipo());
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Ya existe un Usuario con ese Alias/Contraseña");
+            }
             if (ModelState.IsValid)
             {
-                _genericRepository.Insert(userAccount);
-                _genericRepository.Save();
-                return RedirectToAction("Login");
-            }
-            return View(userAccount);
+                _userAccountAppService.Save();
+                return RedirectToAction("Login");                
+            }            
+            return View(userAccountsModel);
         }
 
         public ActionResult Login()
@@ -61,14 +74,16 @@ namespace DBFMvcMovies.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(UserAccount user)
+        public ActionResult Login(Domain.Models.UserAccount user, string returnUrl)
         {
-            var usr = _genericRepository.GetAll().FirstOrDefault(s => s.Username == user.Username && s.Password == user.Password);
+            var usr = _userAccountAppService.GetAll().FirstOrDefault(s => s.Username == user.Username && s.Password == user.Password);
             if (usr != null)
             {
                 Session["UserID"] = usr.Id.ToString();
-                Session["Username"] = usr.FirstName.ToString();
-                return RedirectToAction("Index", "Movies");
+                FormsAuthentication.SetAuthCookie(usr.Username, false);
+
+                // Redirect to URL "returnURL" if "returnURL" is NOT null; otherwise, Redirect Movie Index View.
+                return Redirect(returnUrl ?? Url.Action("Index", "Movies"));
             }
             else
             {
@@ -89,6 +104,12 @@ namespace DBFMvcMovies.Controllers
             }
         }
 
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            Session.Clear();
+            return RedirectToAction("Login");
+        }
 
     }
 }
