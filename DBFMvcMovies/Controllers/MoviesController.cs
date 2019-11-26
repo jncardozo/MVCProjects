@@ -44,7 +44,7 @@ namespace DBFMvcMovies.Controllers
         // GET: Movies/Details/5
         public ActionResult Details(int id)
         {
-            Movies movie = _moviesAppServices.GetById(id);
+            var movie = _moviesAppServices.GetById(id);
             return View(movie);
         }
 
@@ -86,7 +86,7 @@ namespace DBFMvcMovies.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Movies movie = _moviesAppServices.GetById(id);
+            var movie = _moviesAppServices.GetById(id);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -125,7 +125,7 @@ namespace DBFMvcMovies.Controllers
             {
                 ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
             }
-            Movies movie = _moviesAppServices.GetById(id);
+            var movie = _moviesAppServices.GetById(id);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -138,7 +138,7 @@ namespace DBFMvcMovies.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Movies movie = _moviesAppServices.GetById(id);
+            var movie = _moviesAppServices.GetById(id);
             _moviesAppServices.Delete(id);
             _moviesAppServices.Save();
             return RedirectToAction("Index");

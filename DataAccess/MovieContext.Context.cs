@@ -27,6 +27,5 @@ namespace DataAccess
     
         public virtual DbSet<Movies> Movies { get; set; }
         public virtual DbSet<UserAccount> UserAccount { get; set; }
-        public virtual DbSet<Country> Country { get; set; }
     }
 }

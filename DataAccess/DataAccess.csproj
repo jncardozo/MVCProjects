@@ -55,11 +55,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="MovieEntity.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MovieEntity.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="MovieEntity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -96,11 +91,6 @@
     <Content Include="MovieContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MovieContext.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="MovieEntity.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MovieEntity.Context.cs</LastGenOutput>
-      <DependentUpon>MovieEntity.edmx</DependentUpon>
     </Content>
     <Content Include="MovieEntity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

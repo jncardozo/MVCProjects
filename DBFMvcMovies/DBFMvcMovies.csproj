@@ -230,7 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Aplication\Aplication.csproj">
-      <Project>{89BFE66B-73AC-4D33-8D27-E91FE9FDFE39}</Project>
+      <Project>{89bfe66b-73ac-4d33-8d27-e91fe9fdfe39}</Project>
       <Name>Aplication</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">

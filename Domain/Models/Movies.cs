@@ -19,8 +19,5 @@ namespace Domain.Models
         public System.DateTime ReleaseDate { get; set; }
         public string Genre { get; set; }
         public decimal Price { get; set; }
-        public Nullable<int> CountryId { get; set; }
-    
-        public virtual Country Country { get; set; }
     }
 }
