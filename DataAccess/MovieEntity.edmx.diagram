@@ -6,7 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="a5a3fb22af8344a39d2f436c032ddeba" Name="Diagram1">
         <EntityTypeShape EntityType="DatabaseFirstMovieDBModel.Movies" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseFirstMovieDBModel.UserAccount" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFirstMovieDBModel.UserAccount" Width="1.5" PointX="3.125" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFirstMovieDBModel.Country" Width="1.5" PointX="0.75" PointY="4.125" />
+        <AssociationConnector Association="DatabaseFirstMovieDBModel.FK_Movies_Country" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Aplication.Services.Movie.Interfaces;
 using DataAccess.Repository;
+using DBFMvcMovies.Security;
 using Domain.Models;
 
 namespace DBFMvcMovies.Controllers
